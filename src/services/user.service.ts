@@ -16,6 +16,13 @@ class UserService {
 
     return token;
   }
+
+  public async login(username: string): Promise<any> {
+    const result = await this.model.login(username);
+    const token = jwt.sign({ result }, 'secret');
+
+    return token;
+  }
 }
 
 export default UserService;
