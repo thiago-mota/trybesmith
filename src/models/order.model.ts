@@ -21,7 +21,6 @@ export default class OrderModel {
       ORDER BY orders.userId
       `);
     // https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_json-arrayagg
-    console.log(result);
     return result as Order[];
   }
 }
