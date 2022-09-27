@@ -30,8 +30,6 @@ export const validatePassword = (request: Request, response: Response, next: Nex
 
 export const checkUser = async (request: Request, response: Response, next: NextFunction) => {
   const { username, password } = request.body;
-  console.log('lOG DO USERNAME LINHA 33 ---->', username);
-
   const userLogin = await userModel.login(username);
 
   if (userLogin.length === 0 || password !== userLogin[0].password) {
