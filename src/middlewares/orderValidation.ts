@@ -32,9 +32,9 @@ export const validateToken = (request: Request, response: Response, next: NextFu
   const { authorization } = request.headers;
 
   try {
-    if (!authorization) {
+    if (authorization === undefined) {
       return response
-        .status(StatusCodes.NOT_FOUND)
+        .status(StatusCodes.UNAUTHORIZED)
         .json({ message: 'Token not found' });
     }
     // const token = decodeToken(authorization);
