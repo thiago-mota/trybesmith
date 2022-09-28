@@ -3,22 +3,22 @@ import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 
 export const validateProducts = (request: Request, response: Response, next: NextFunction) => {
-  const { prodcutsIds } = request.body;
-  if (!prodcutsIds) {
+  const { productsIds } = request.body;
+  if (!productsIds) {
     return response
       .status(StatusCodes.BAD_REQUEST)
-      .json({ message: '"prodcutsIds" is required' });
+      .json({ message: '"productsIds" is required' });
   }
-  if (!Array.isArray(prodcutsIds)) {
+  if (!Array.isArray(productsIds)) {
     return response
       .status(StatusCodes.UNPROCESSABLE_ENTITY)
-      .json({ message: '"prodcutsIds" must be a string' });
+      .json({ message: '"productsIds" must be an array' });
     // https://betterprogramming.pub/how-to-check-data-types-in-javascript-using-typeof-424d0520a329#:~:text=One%20type%20of%20object%20that,tell%20arrays%20from%20other%20objects.
   }
-  if (prodcutsIds.length === 0) {
+  if (productsIds.length === 0) {
     return response
       .status(StatusCodes.UNPROCESSABLE_ENTITY)
-      .json({ message: '"prodcutsIds" length must be at least 3 characters long' });
+      .json({ message: '"productsIds" must include only numbers' });
   }
   next();
 };
@@ -37,7 +37,6 @@ export const validateToken = (request: Request, response: Response, next: NextFu
         .status(StatusCodes.NOT_FOUND)
         .json({ message: 'Token not found' });
     }
-    next();
     // const token = decodeToken(authorization);
     jwt.verify(authorization, 'secret');
   } catch (error) {
@@ -45,4 +44,5 @@ export const validateToken = (request: Request, response: Response, next: NextFu
       .status(StatusCodes.UNAUTHORIZED)
       .json({ message: 'Invalid token' });
   }
+  next();
 };
