@@ -1,4 +1,4 @@
-import { Pool } from 'mysql2/promise';
+import { Pool, ResultSetHeader } from 'mysql2/promise';
 import Order from '../interfaces/order.interface';
 
 export default class OrderModel {
@@ -22,5 +22,20 @@ export default class OrderModel {
       `);
     // https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_json-arrayagg
     return result as Order[];
+  }
+
+  public async create(order: number[], id: number): Promise<Order> {
+    const [result] = await this.connection
+      .execute<ResultSetHeader>('INSERT INTO Trybesmith.Orders(userId) VALUES (?)', [id]);
+    const { insertId } = result;
+
+    order.forEach(async (productId) => {
+      await this.connection.execute(
+        'UPDATE Trybesmith.Products SET orderId = ? WHERE id =?',
+        [insertId, productId],
+      );
+    });
+
+    return { userId: id, productsIds: order } as Order;
   }
 }
