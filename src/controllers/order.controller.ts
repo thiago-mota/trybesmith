@@ -19,7 +19,6 @@ class OrderController {
     const { authorization } = request.headers;
     
     const tokenData = jwt.verify(authorization as string, 'secret') as jwt.JwtPayload;
-    console.log('LOG DO JWT VERIFY ---->', tokenData.result[0].id);
 
     const newOrder = await this.orderService.create(productsIds, tokenData.result[0].id);
 

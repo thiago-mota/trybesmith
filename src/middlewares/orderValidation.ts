@@ -23,11 +23,6 @@ export const validateProducts = (request: Request, response: Response, next: Nex
   next();
 };
 
-// const decodeToken = (authorization: any) => {
-//   const verifiedToken = jwt.verify(authorization, 'secret');
-//   return verifiedToken;
-// };
-
 export const validateToken = (request: Request, response: Response, next: NextFunction) => {
   const { authorization } = request.headers;
 
@@ -37,7 +32,7 @@ export const validateToken = (request: Request, response: Response, next: NextFu
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: 'Token not found' });
     }
-    // const token = decodeToken(authorization);
+
     jwt.verify(authorization, 'secret');
   } catch (error) {
     return response
